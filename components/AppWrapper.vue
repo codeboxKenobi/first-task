@@ -2,11 +2,11 @@
     <div class="app-wrapper">
         <div class="line-chart">
             <p>Сравнение ТСО </p>
-            <line-chart v-if="lineLoad" :data="lineChartData" :options="lineChartOptions" style="width: 100%; height: 300px" />
+            <line-chart v-if="lineLoad" :data="lineChartData" :options="ChartOptions" style="width: 100%; height: 300px" />
         </div>
         <div class="bar-chart">
             <p>Сравнение наработки </p>
-            <bar-chart v-if="barLoad" :data="barChartData" :options="lineChartOptions" style="width: 100%; height: 300px" />
+            <bar-chart v-if="barLoad" :data="barChartData" :options="ChartOptions" style="width: 100%; height: 300px" />
         </div>
     </div>
 </template>
@@ -14,7 +14,9 @@
 <script>
 import LineChart from './LineChart.vue'
 import BarChart from './BarChart.vue'
-    export default {
+import { labels, lineColors, separateSize } from './lineDataService.js'
+
+export default {
   components: { 
       LineChart,
       BarChart
@@ -26,57 +28,10 @@ import BarChart from './BarChart.vue'
 
                 lineData: [],
                 allLineData: [],
-
+                
                 lineChartData: {
-                    labels: [
-                        "Валок 1",
-                        "Валок 2",
-                        "Валок 3",
-                        "Валок 4",
-                        "Валок 5",
-                    ],
-                    datasets: [
-                        {
-                            label: "Visualizaciones",
-                            lineTension: 0,
-                            data: [],
-                            backgroundColor: "transparent",
-                            borderColor: "rgba(83, 74, 190, 1)",
-                            borderWidth: 2,
-                        },
-                        {
-                            label: "Visualizaciones",
-                            lineTension: 0,
-                            data: [],
-                            backgroundColor: "transparent",
-                            borderColor: "rgba(232, 230, 45, 1)",
-                            borderWidth: 2,
-                        },
-                        {
-                            label: "Visualizaciones",
-                            lineTension: 0,
-                            data: [],
-                            backgroundColor: "transparent",
-                            borderColor: "rgba(64, 146, 181, 1)",
-                            borderWidth: 2,
-                        },
-                        {
-                            label: "Visualizaciones",
-                            lineTension: 0,
-                            data: [],
-                            backgroundColor: "transparent",
-                            borderColor: "rgba(94, 207, 150, 1)",
-                            borderWidth: 2,
-                        },
-                        {
-                            label: "Visualizaciones",
-                            lineTension: 0,
-                            data: [],
-                            backgroundColor: "transparent",
-                            borderColor: "rgba(245, 40, 145, 1)",
-                            borderWidth: 2,
-                        },
-                    ],
+                    labels: [],
+                    datasets: [],
                 },
                 barChartData: {
                     labels: [
@@ -164,7 +119,7 @@ import BarChart from './BarChart.vue'
                     ],
                 },
 
-                lineChartOptions: {
+                ChartOptions: {
                     maintainAspectRatio: false,
                     responsive: true,
                     legend: {
@@ -215,8 +170,7 @@ import BarChart from './BarChart.vue'
 
                 return this.lineData
             },
-            separateData(arr) {
-                const size = 5
+            separateData(arr, size) {
                 const subarray = []
                 for (let i = 0; i < Math.ceil(arr.length/size); i++){
                     subarray[i] = arr.slice((i*size), (i*size) + size)
@@ -230,15 +184,27 @@ import BarChart from './BarChart.vue'
                 this.getRandomData()
             }
 
-            this.separateData(this.lineData)
-
-            for (let i = 0; i < 5; i++)
-                this.lineChartData.datasets[i].data = this.allLineData[i]
-                this.lineLoad = true
+            this.separateData(this.lineData, separateSize)
 
             for (let y = 0; y < 5; y++)
             this.barChartData.datasets[y].data = this.allLineData[y]
             this.barLoad = true
+
+            for (let i = 0; i < labels.length; i++) {
+                this.lineChartData.labels.push(labels[i])
+
+                const lineItems = {
+                    label: labels[i],
+                    lineTension: 0,
+                    data: this.allLineData[i],
+                    backgroundColor: 'transparent',
+                    borderColor: lineColors[i],
+                    borderWidth: 2
+                }
+                this.lineChartData.datasets[i] = lineItems
+            }
+            this.lineLoad = true
+
         }   
     }
 
