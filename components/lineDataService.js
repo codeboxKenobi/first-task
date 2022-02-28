@@ -5,6 +5,12 @@ export const lineLabels = [
     "Валок 4",
     "Валок 5",
     "Валок 6",
+    "Валок 7",
+    "Валок 8",
+    "Валок 8",
+    "Валок 8",
+    
+
 
 
 ]
@@ -19,10 +25,10 @@ export const lineColors = [
 
 
 
-export function addLineItem(separateSize) {
+export function addLineItem(lineSeparateSize) {
     if (lineLabels) {
         console.log(lineLabels.length);
-        separateSize = lineLabels.length
-        return separateSize
+        lineSeparateSize = lineLabels.length
+        return lineSeparateSize
     }
 }

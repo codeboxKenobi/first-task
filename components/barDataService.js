@@ -3,7 +3,12 @@ export const barLabels = [
     "Типоразмер 2",
     "Типоразмер 3",
     "Типоразмер 4",
-
+    "Типоразмер 5",
+    "Типоразмер 6",
+    "Типоразмер 7",
+    "Типоразмер 8",
+    
+    
 ]
 
 export const barColors = [
@@ -14,5 +19,12 @@ export const barColors = [
     "rgba(245, 40, 145, 1)"
 ]
 
+export function addBarItem(barSeparateSize) {
+    if (barLabels) {
+        console.log(barLabels.length);
+        barSeparateSize = barLabels.length
+        return barSeparateSize
+    }
+}
 
 

@@ -15,7 +15,7 @@
 import LineChart from './LineChart.vue'
 import BarChart from './BarChart.vue'
 import { lineLabels, lineColors, addLineItem } from './lineDataService.js'
-import { barLabels, barColors } from './barDataService.js'
+import { barLabels, barColors, addBarItem } from './barDataService.js'
 
 export default {
   components: { 
@@ -29,12 +29,13 @@ export default {
 
                 barData: [],
                 allBarData: [],
+                barSeparateSize: addBarItem(),
 
 
 
                 lineData: [],
                 allLineData: [],
-                separateSize: addLineItem(),
+                lineSeparateSize: addLineItem(),
 
                 lineChartData: {
                     labels: [],
@@ -111,20 +112,21 @@ export default {
                 }
                 this.allBarData = subarray
             },
+            random(setData) {
+                for (let x = 0; x < setData; x++) {
+                    this.getRandomData()
+                }
+            }
             
         },
         mounted() {
-            for (let x = 0; x < 5; x++) {
-                this.getRandomData()
-            }
+            this.random(this.lineSeparateSize)
+            this.random(this.barSeparateSize)
 
-            this.separateLineData(this.lineData, this.separateSize)
-            this.separateBarData(this.barData, this.separateSize)
+            this.separateLineData(this.lineData, this.lineSeparateSize)
+            this.separateBarData(this.barData, this.barSeparateSize)
          
-            // for (let y = 0; y < 5; y++)
-            // this.barChartData.datasets[y].data = this.allBarData[y]
-            // this.barLoad = true
-
+           
             for (let i = 0; i < lineLabels.length; i++) {
                 this.lineChartData.labels.push(lineLabels[i])
 
