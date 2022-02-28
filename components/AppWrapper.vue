@@ -14,7 +14,8 @@
 <script>
 import LineChart from './LineChart.vue'
 import BarChart from './BarChart.vue'
-import { labels, lineColors, separateSize } from './lineDataService.js'
+import { lineLabels, lineColors, addLineItem } from './lineDataService.js'
+import { barLabels, barColors } from './barDataService.js'
 
 export default {
   components: { 
@@ -26,97 +27,22 @@ export default {
                 lineLoad: false,
                 barLoad: false,
 
+                barData: [],
+                allBarData: [],
+
+
+
                 lineData: [],
                 allLineData: [],
-                
+                separateSize: addLineItem(),
+
                 lineChartData: {
                     labels: [],
                     datasets: [],
                 },
                 barChartData: {
-                    labels: [
-                        "Типоразмер 1",
-                        "Типоразмер 2",
-                        "Типоразмер 3",
-                        "Типоразмер 4",
-                    ],
-                    datasets: [
-                        {
-                            label: "bar 1",
-                            lineTension: 0,
-                            data: [
-                                [0, 2.8],
-                                [0, 2.8],
-                                [0, 2.8],
-                                [0, 2.8],
-                                [0, 2.8],
-                            ],
-
-                            backgroundColor: "rgba(83, 74, 190, 1)",
-                            borderColor: "rgba(83, 74, 190, 1)",
-                            borderWidth: 1,
-                        },
-                        {
-                            label: "bar 2",
-                            lineTension: 0,
-                            data: [
-                                [0, 3.8], 
-                                [0, 3.8],
-                                [0, 3.8],
-                                [0, 3.8],
-                                [0, 3.8],
-                            ],
-
-                            backgroundColor: "rgba(232, 230, 45, 1)",
-                            borderColor: "rgba(232, 230, 45, 1)",
-                            borderWidth: 1,
-                        },
-                        {
-                            label: "bar 3",
-                            lineTension: 0,
-                            data: [
-                                [0, 3.2],
-                                [0, 3.2],
-                                [0, 3.2],
-                                [0, 3.2],
-                                [0, 3.2],
-                            ],
-
-                            backgroundColor: "rgba(64, 146, 181, 1)",
-                            borderColor: "rgba(64, 146, 181, 1)",
-                            borderWidth: 1,
-                        },
-                        {
-                            label: "bar 4",
-                            lineTension: 0,
-                            data: [
-                                [0, 4.3],
-                                [0, 4.3],
-                                [0, 4.3],
-                                [0, 4.3],
-                                [0, 4.3],
-                            ],
-
-                            backgroundColor: "rgba(94, 207, 150, 1)",
-                            borderColor: "rgba(94, 207, 150, 1)",
-                            borderWidth: 1,
-                        },
-                        {
-                            label: "bar 5",
-                            lineTension: 0,
-                            data: [
-                                [0, 3.6],
-                                [0, 3.6],
-                                [0, 3.6],
-                                [0, 3.6],
-                             
-                            ],
-
-                            backgroundColor: "rgba(245, 40, 145, 1)",
-                            borderColor: "rgba(245, 40, 145, 1)",
-                            borderWidth: 1,
-                        },
-                    ],
+                    labels: [],
+                    datasets: [],
                 },
 
                 ChartOptions: {
@@ -166,35 +92,44 @@ export default {
 
                 for (let i = 0; i < 5; i++) {
                     this.lineData.push(Math.floor(Math.random() * (max - min) + min)) 
+                    this.barData.push(Math.floor(Math.random() * (max - min) + min))
                 }
 
                 return this.lineData
             },
-            separateData(arr, size) {
+            separateLineData(arr, size) {
                 const subarray = []
-                for (let i = 0; i < Math.ceil(arr.length/size); i++){
-                    subarray[i] = arr.slice((i*size), (i*size) + size)
+                for (let i = 0; i < Math.ceil(arr.length / size); i++){
+                    subarray[i] = arr.slice((i * size), (i * size) + size)
                 }
                 this.allLineData = subarray
-                
-            }
+            },
+            separateBarData(arr, size) {
+                const subarray = []
+                for (let i = 0; i < Math.ceil(arr.length / size); i++){
+                    subarray[i] = arr.slice((i * size), (i * size) + size)
+                }
+                this.allBarData = subarray
+            },
+            
         },
         mounted() {
             for (let x = 0; x < 5; x++) {
                 this.getRandomData()
             }
 
-            this.separateData(this.lineData, separateSize)
+            this.separateLineData(this.lineData, this.separateSize)
+            this.separateBarData(this.barData, this.separateSize)
+         
+            // for (let y = 0; y < 5; y++)
+            // this.barChartData.datasets[y].data = this.allBarData[y]
+            // this.barLoad = true
 
-            for (let y = 0; y < 5; y++)
-            this.barChartData.datasets[y].data = this.allLineData[y]
-            this.barLoad = true
-
-            for (let i = 0; i < labels.length; i++) {
-                this.lineChartData.labels.push(labels[i])
+            for (let i = 0; i < lineLabels.length; i++) {
+                this.lineChartData.labels.push(lineLabels[i])
 
                 const lineItems = {
-                    label: labels[i],
+                    label: lineLabels[i],
                     lineTension: 0,
                     data: this.allLineData[i],
                     backgroundColor: 'transparent',
@@ -205,6 +140,20 @@ export default {
             }
             this.lineLoad = true
 
+            for (let b = 0; b < barLabels.length; b++) {
+                this.barChartData.labels.push(barLabels[b])
+
+                const barItems = {
+                    label: barLabels[b],
+                    lineTension: 0,
+                    data: this.allBarData[b],
+                    backgroundColor: barColors[b],
+                    borderColor: barColors[b],
+                    borderWidth: 2
+                }
+                this.barChartData.datasets[b] = barItems
+            }
+            this.barLoad = true
         }   
     }
 
