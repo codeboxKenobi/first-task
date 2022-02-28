@@ -7,8 +7,6 @@ export const barLabels = [
     "Типоразмер 6",
     "Типоразмер 7",
     "Типоразмер 8",
-    
-    
 ]
 
 export const barColors = [
@@ -19,9 +17,17 @@ export const barColors = [
     "rgba(245, 40, 145, 1)"
 ]
 
+function randomColor() {
+    let min = Math.floor(10)
+    let max = Math.floor(600)
+    return `rgba(${Math.floor(Math.random() * (max - min) + min)}, ${Math.floor(Math.random() * (max - min) + min)}, ${Math.floor(Math.random() * (max - min) + min)}, 1)`
+}
+
 export function addBarItem(barSeparateSize) {
     if (barLabels) {
-        console.log(barLabels.length);
+        for (let i = 0; i < barLabels.length; i++) {
+            barColors.push(randomColor())
+        }
         barSeparateSize = barLabels.length
         return barSeparateSize
     }

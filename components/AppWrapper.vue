@@ -31,8 +31,6 @@ export default {
                 allBarData: [],
                 barSeparateSize: addBarItem(),
 
-
-
                 lineData: [],
                 allLineData: [],
                 lineSeparateSize: addLineItem(),
@@ -126,7 +124,6 @@ export default {
             this.separateLineData(this.lineData, this.lineSeparateSize)
             this.separateBarData(this.barData, this.barSeparateSize)
          
-           
             for (let i = 0; i < lineLabels.length; i++) {
                 this.lineChartData.labels.push(lineLabels[i])
 
@@ -158,8 +155,6 @@ export default {
             this.barLoad = true
         }   
     }
-
-
 
 </script>
 

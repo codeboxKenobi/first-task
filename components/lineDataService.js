@@ -7,12 +7,8 @@ export const lineLabels = [
     "Валок 6",
     "Валок 7",
     "Валок 8",
-    "Валок 8",
-    "Валок 8",
-    
-
-
-
+    "Валок 9",
+    "Валок 10",
 ]
 
 export const lineColors = [
@@ -23,11 +19,17 @@ export const lineColors = [
     "rgba(245, 40, 145, 1)"
 ]
 
-
+function randomColor() {
+    let min = Math.floor(10)
+    let max = Math.floor(600)
+    return `rgba(${Math.floor(Math.random() * (max - min) + min)}, ${Math.floor(Math.random() * (max - min) + min)}, ${Math.floor(Math.random() * (max - min) + min)}, 1)`
+}
 
 export function addLineItem(lineSeparateSize) {
     if (lineLabels) {
-        console.log(lineLabels.length);
+        for (let i = 0; i < lineLabels.length; i++) {
+            lineColors.push(randomColor())
+        }
         lineSeparateSize = lineLabels.length
         return lineSeparateSize
     }
