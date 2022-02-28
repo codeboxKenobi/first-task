@@ -3,7 +3,7 @@ export const barLabels = [
     "Типоразмер 2",
     "Типоразмер 3",
     "Типоразмер 4",
-    "Типоразмер 5",
+
 ]
 
 export const barColors = [
